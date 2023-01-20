@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DayNightCycle : MonoBehaviour
+{
+    int hours = 0;
+    int minutes = 0;
+    int get_hours()
+    {
+        return hours;
+    }
+    void set_hours(int newhours)
+    {
+        hours = newhours;
+    }
+    // get current hour in hh:mm
+    string get_current_time()
+    { // turn hh and mm into string and add : in between
+        string hours_string = hours.ToString();
+        string minutes_string = minutes.ToString();
+        // if len(hours.ToString) == 1: hours.ToString = ("0" + hours.ToString)
+        if (hours_string.Length == 1) { hours_string = ("0" + hours_string); }
+        if (minutes_string.Length == 1) { minutes_string = ("0" + minutes_string); }
+        return hours_string + ":" + minutes_string;
+    }
+    //divide currenthhmm into hours and minutes and convert to int
+    void set_current_time(string currenthhmm)
+    {
+        string[] splitString = currenthhmm.Split(char.Parse(":"));
+        int.TryParse(splitString[0], out hours);
+        int.TryParse(splitString[1], out minutes);
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        InvokeRepeating("timecounter", 0, 2.5f);
+    }
+    void timecounter()
+    {
+        minutes++;
+        if (minutes == 60) { hours++; minutes = 0; }
+        if (hours == 24) { hours = 0; }
+        string very_current_time = get_current_time();
+        Debug.Log(very_current_time);
+    }
+   
+}
